@@ -1,0 +1,16 @@
+{
+  "name": "bug-tracker",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {},
+  "author": "Akil kumar A",
+  "license": "ISC",
+  "dependencies": {
+    "mongoose": "^5.0.0-rc0",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "webpack": "^3.10.0",
+    "webpack-dev-server": "^2.9.7"
+  }
+}
