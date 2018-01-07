@@ -1,17 +1,17 @@
-var mongoose = require('mongoose');
-var Ticket = require('./model/ticket');
+var express = require('express');
+var wagner = require('wagner-core');
 
-mongoose.connect('mongodb://localhost:27017/bugtracker');
+require('./models/models.js')(wagner);
 
-var ticket = new Ticket({
-  title: 'John Smith',
-  description: 'john@smith.io',
-  reporter: 'akil',
-  assignee: 'akil',
-  status: 'Open',
-  severity: 'Low'
+wagner.invoke(function(Ticket){
+    var ticket = new Ticket({
+        _id: 'ID-01',
+        title: 'John Smith',
+        description: 'john@smith.io',
+        reporter: 'akil',
+        assignee: 'akil',
+        status: 'Open',
+        severity: 'Low'
+    });
+    ticket.save();
 });
-
-console.log("Hi, I am Running!!");
-
-ticket.save();
