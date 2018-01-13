@@ -3,24 +3,25 @@ var express = require('express');
 module.exports = function(wagner) {
   var app = express.Router();
 
-    app.get('/', 
-        function(req, res) {
-            res.send('GET handler for /tickets route.');
-        }
-    );
+    app.get('/', wagner.invoke(function(Ticket) {
+        return function(req, res) {
+            Ticket.
+                find().
+                sort({ _id: 1 }).
+                exec(function(error, tickets) {
+                    if (error) {
+                        return res.status(500).json({ error: error.toString() });
+                    }
+                    res.json({ tickets: tickets });
+                });
+        };
+    }));
 
     app.post('/', wagner.invoke(function(Ticket) {
         return function(req, res) {    
-                var ticket = new Ticket({
-                _id: 'ID-02',
-                title: 'John    ',
-                description: 'john@smith.io',
-                reporter: 'akil',
-                assignee: 'akil',
-                status: 'Open',
-                severity: 'Low'
-            });
+            var ticket = new Ticket(req.body)
             ticket.save();
+            res.status(200).json({ "message": "Ticket created" });
         }
     }));
 
