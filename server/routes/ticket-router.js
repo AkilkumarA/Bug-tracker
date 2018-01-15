@@ -20,28 +20,60 @@ module.exports = function(wagner) {
     app.post('/', wagner.invoke(function(Ticket) {
         return function(req, res) {    
             var ticket = new Ticket(req.body)
-            ticket.save();
-            res.status(200).json({ "message": "Ticket created" });
+            ticket.save(function(error){
+                if (error) {
+                    return res.status(500).json({ error: error.toString() });
+                }
+                res.status(200).json({ "message": "Ticket created" });
+            });
         }
     }));
 
-    app.get('/:id', 
-        function(req, res) {
-            res.send('GET handler for /tickets/'+ req.params.id +' route.');
+    app.get('/:id', wagner.invoke(function(Ticket) {
+        return function(req, res) {
+            Ticket.findById(req.params.id, function(error, ticket) {
+                if (error) {
+                    return res.status(500).json({ error: error.toString() });
+                }
+                return res.json({ticket});
+            });
         }
-    );
+    }));
 
-    app.put('/:id', 
-        function(req, res) {
-            res.send('PUT handler for /tickets/'+ req.params.id +' route.');
+    app.put('/:id', wagner.invoke(function(Ticket) {
+        return function(req, res) {
+            Ticket.findById(req.params.id, function(error, ticket) {
+                if (error) {
+                    return res.status(500).json({ error: error.toString() });
+                }
+                for (var prop in req.body) {
+                    ticket[prop] = req.body[prop];
+                }
+                ticket.save(function(error){
+                    if (error) {
+                        return res.status(500).json({ error: error.toString() });
+                    }
+                    res.status(200).json({ "message": "Ticket updated" });
+                });
+            });
         }
-    );
+    }));
 
-    app.delete('/:id', 
-        function(req, res) {
-            res.send('DELETE handler for /tickets/'+ req.params.id +' route.');
+    app.delete('/:id', wagner.invoke(function(Ticket) {
+        return function(req, res) {
+            Ticket.findById(req.params.id, function(error, ticket) {
+                if (error) {
+                    return res.status(500).json({ error: error.toString() });
+                }
+                ticket.remove(function(err) {
+                    if (error) {
+                        return res.status(500).json({ error: error.toString() });
+                    }
+                    res.status(200).json({ "message": "Ticket deleted" });
+                });
+            });
         }
-    );
+    }));
 
   return app;
 };

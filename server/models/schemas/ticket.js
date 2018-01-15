@@ -9,7 +9,7 @@ const ticketSchema = new mongoose.Schema({
 	assignee: { type: String },
 	status: {
 		type: String,
-		enum: ['Open', 'In progess', 'Done'],
+		enum: ['Open', 'In progress', 'Done'],
 		required: true
 	},
 	severity: {
