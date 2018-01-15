@@ -1,17 +1,5 @@
-var express = require('express');
-var wagner = require('wagner-core');
+var app = require('./server');
 
-require('./models/models.js')(wagner);
+app.listen(3000);
 
-wagner.invoke(function(Ticket){
-    var ticket = new Ticket({
-        _id: 'ID-01',
-        title: 'John Smith',
-        description: 'john@smith.io',
-        reporter: 'akil',
-        assignee: 'akil',
-        status: 'Open',
-        severity: 'Low'
-    });
-    ticket.save();
-});
+console.log("Server started and listening in port 3000");
