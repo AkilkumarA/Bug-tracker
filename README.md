@@ -1,2 +1,3 @@
 # bug-tracker
-Edited
+
+Bug tracker is an issue-tracking tool, follows agile based software development process.
