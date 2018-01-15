@@ -1,7 +1,6 @@
 var mongoose = require('mongoose');
 
-const ticketSchema = {
-	_id: { type: String, required: true},
+const ticketSchema = new mongoose.Schema({
 	title: { type: String, required: true },
 	description: { type: String },
 	createdOn: { type: Date, default: Date.now },
@@ -10,14 +9,13 @@ const ticketSchema = {
 	assignee: { type: String },
 	status: {
 		type: String,
-		enum: ['Open', 'In progess', 'Done'],
+		enum: ['Open', 'In progress', 'Done'],
 		required: true
 	},
 	severity: {
 		type: String,
 		enum: ['Low', 'Medium', 'High', 'Critical']
 	}
-};
+});
 
-module.exports = new mongoose.Schema(ticketSchema);
-module.exports.ticketSchema = ticketSchema;
+module.exports = ticketSchema;
