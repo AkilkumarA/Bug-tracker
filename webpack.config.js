@@ -1,24 +1,31 @@
-var config = {
-    entry: './client/index.js',
+var path = require('path');
+
+var BUILD_DIR = path.resolve(__dirname, 'public/js');
+var APP_DIR = path.resolve(__dirname, 'client');
+
+module.exports = {
+    entry: APP_DIR+"/index.js",
     output: {
-       path:__dirname + '/public/js',
-       filename: 'bundle.js',
+        path: path.resolve(__dirname, BUILD_DIR),
+        filename: "bundle.js"        
     },
-    devServer: {
-       inline: true,
-       port: 8080
-    },
-    module: {
-       loaders: [
+    module : {
+        loaders : [
           {
-             test: /\.jsx?$/,
-             exclude: /node_modules/,
-             loader: 'babel-loader',
-             query: {
+            test: /\.(js|jsx)$/,
+            include : APP_DIR,
+            loader : 'babel-loader',
+            query: {
                 presets: ['es2015', 'react']
-             }
+            }
+          },
+          {
+            test: /\.css$/,
+            loader: 'style-loader!css-loader'
           }
-       ]
+        ]
+    },  
+    resolve: {
+        extensions: ['.js', '.jsx']
     }
- }
- module.exports = config;
+}    
