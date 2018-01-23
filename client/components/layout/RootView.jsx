@@ -1,10 +1,17 @@
 import React from 'react';
 
-class RootView extends React.Component{
-    render(){
-        return(
-            <div>
-                Hello Akil
+import Header from './Header';
+import Footer    from './Footer';
+
+class RootView extends React.Component {
+    render() {
+        return (
+            <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+                <Header />
+                <main class="mdl-layout__content">
+                    <div class="page-content"></div>
+                </main>
+                <Footer />
             </div>
         );
     }
