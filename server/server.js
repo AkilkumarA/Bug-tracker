@@ -1,6 +1,6 @@
 var express = require('express');
 var wagner = require('wagner-core');
-var bodyParser = require('body-parser')
+var bodyParser = require('body-parser');
 
 require('./models/models.js')(wagner);
 
