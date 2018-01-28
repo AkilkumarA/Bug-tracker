@@ -7,10 +7,10 @@ import ViewTickets from '../viewTickets/ViewTickets';
 class RootView extends React.Component {
     render() {
         return (
-            <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+            <div className="mdl-layout mdl-js-layout mdl-layout--fixed-header">
                 <Header />
-                <main class="mdl-layout__content">
-                    <div class="page-content">
+                <main className="mdl-layout__content">
+                    <div className="page-content">
                         <ViewTickets />
                     </div>
                 </main>
