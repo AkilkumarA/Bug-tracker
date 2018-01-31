@@ -43,7 +43,7 @@ class ViewTickets extends React.Component {
                             showExpandableButton={true}
                             
                         />
-                        <CardText expandable={true}>zz
+                        <CardText expandable={true}>
                             <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp">
                                 <tbody>
                                     <tr>
