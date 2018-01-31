@@ -35,12 +35,13 @@ class ViewTickets extends React.Component {
         return (
             <MuiThemeProvider>
                 {this.state.tickets.map(ticket =>
-                    <Card>
+                    <Card style={{"margin":"15px"}}>
                         <CardHeader
                             title={"ID-" + ticket._id}
                             subtitle={ticket.title}
                             actAsExpander={true}
                             showExpandableButton={true}
+                            
                         />
                         <CardText expandable={true}>
                             <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp">
