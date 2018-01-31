@@ -10,7 +10,7 @@ class RootView extends React.Component {
             <div className="mdl-layout mdl-js-layout mdl-layout--fixed-header">
                 <Header />
                 <main className="mdl-layout__content">
-                    <div className="page-content">
+                    <div className="page-content" style={{"padding":"30px"}}>
                         <ViewTickets />
                     </div>
                 </main>
