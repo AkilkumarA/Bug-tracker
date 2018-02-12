@@ -13,11 +13,17 @@
   "dependencies": {
     "axios": "^0.17.1",
     "express": "^4.16.2",
+    "history": "^4.7.2",
     "material-ui": "^0.20.0",
     "mongoose": "^5.0.0-rc0",
     "mongoose-auto-increment": "^5.0.1",
     "react": "^16.2.0",
+    "react-addons-update": "^15.6.2",
+    "react-dnd": "^2.5.4",
+    "react-dnd-card": "^0.3.7",
+    "react-dnd-html5-backend": "^2.5.4",
     "react-dom": "^16.2.0",
+    "react-router-dom": "^4.2.2",
     "wagner-core": "^0.2.0",
     "webpack": "^3.10.0",
     "webpack-dev-server": "^2.9.7"
@@ -32,6 +38,7 @@
     "style-loader": "^0.19.1"
   },
   "peerDependencies": {
-    "mongoose": "^5.0.0-rc0"
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0"
   }
 }
