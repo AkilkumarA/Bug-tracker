@@ -7,7 +7,7 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import { Card, CardActions, CardHeader, CardText } from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
 
-class ViewTickets extends React.Component {
+class TicketsList extends React.Component {
 
     constructor(props) {
         super(props);
@@ -76,4 +76,4 @@ class ViewTickets extends React.Component {
     }
 }
 
-export default ViewTickets;
+export default TicketsList;
