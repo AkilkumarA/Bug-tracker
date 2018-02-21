@@ -7,6 +7,12 @@ import { Card, CardActions, CardHeader, CardText } from 'material-ui/Card';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
+import IconMenu from 'material-ui/IconMenu';
+import MenuItem from 'material-ui/MenuItem';
+import IconButton from 'material-ui/IconButton';
+import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
+import ExpandMoreIcon from 'material-ui/svg-icons/navigation/expand-more';
+import ExpandLessIcon from 'material-ui/svg-icons/navigation/expand-less';
 
 import DeleteModal from './DeleteModal';
 import CreateModal from './CreateModal';
@@ -22,6 +28,7 @@ class TicketsList extends React.Component {
         this.state = {
             tickets: [],
             selectedTicketId: 0,
+            expandedTicketId: 0,
             isCreateModalOpen: false,
             isEditModalOpen: false,
             isDeleteModalOpen: false
@@ -44,6 +51,15 @@ class TicketsList extends React.Component {
             });
         }).catch((error) => {
             console.log('Error: ' + error);
+        });
+    }
+
+    handleExpand = (ticketId) => {
+        if (this.state.expandedTicketId == ticketId)
+            ticketId = 0;
+        this.setState({
+            ...this.state,
+            expandedTicketId: ticketId
         });
     }
 
@@ -177,18 +193,34 @@ class TicketsList extends React.Component {
                     </div>
                     <div>
                         {this.state.tickets.map(ticket =>
-                            <Card key={ticket._id} style={{ "margin": "15px" }}>
+                            <Card 
+                                key={ticket._id} 
+                                style={{ "margin": "15px" }}
+                                expanded={this.state.expandedTicketId == ticket._id ? true : false}
+                            >
                                 <CardHeader
                                     title={"ID-" + ticket._id}
                                     subtitle={ticket.title}
-                                    actAsExpander={true}
-                                    showExpandableButton={true}
-
-                                />
+                                >
+                                    <IconButton>
+                                        {this.state.expandedTicketId == ticket._id ? 
+                                            <ExpandLessIcon onClick={() => this.handleExpand(ticket._id)}/> : 
+                                            <ExpandMoreIcon onClick={() => this.handleExpand(ticket._id)}/>
+                                        }
+                                    </IconButton>
+                                    <IconMenu
+                                        iconButtonElement={<IconButton><MoreVertIcon /></IconButton>}
+                                        anchorOrigin={{horizontal: 'right', vertical: 'top'}}
+                                        targetOrigin={{horizontal: 'right', vertical: 'top'}}
+                                        >
+                                            <MenuItem primaryText="Edit" onClick={() => this.handleModalOpen("editModal", ticket._id)} />
+                                            <MenuItem primaryText="Delete" onClick={() => this.handleModalOpen("deleteModal", ticket._id)} />
+                                    </IconMenu>
+                                </CardHeader>
                                 <CardText expandable={true}>
-                                    <div style={{ "display": "flex", "justify-content": "space-between" }}>
+                                    <div style={{ "display": "flex", "justifyContent": "space-between" }}>
                                         <div>{ticket.description}</div>
-                                        <div style={{ "padding-right": "20px" }}>Assignee: {ticket.assignee}</div>
+                                        <div style={{ "paddingRight": "20px" }}>Assignee: {ticket.assignee}</div>
                                     </div>
                                 </CardText>
                                 <CardActions expandable={true}>
