@@ -33,7 +33,7 @@ class TicketsList extends React.Component {
     }
 
     init() {
-        const URL = 'http://'+clientConfig.mongoAPI.HOST+clientConfig.mongoAPI.BASE_PATH;
+        const URL = 'http://' + clientConfig.mongoAPI.HOST + clientConfig.mongoAPI.BASE_PATH;
         axios({
             method: 'get',
             url: URL
@@ -48,18 +48,18 @@ class TicketsList extends React.Component {
     }
 
     handleModalOpen = (modalId, ticketId) => {
-        switch(modalId){
+        switch (modalId) {
             case "createModal":
                 this.setState({
                     ...this.state,
                     isCreateModalOpen: true
-                });    
+                });
                 break;
             case "editModal":
                 var selectedTicket = {};
                 this.state.tickets.forEach(
-                    function iterator(ticket){
-                        if(ticketId == ticket._id)
+                    function iterator(ticket) {
+                        if (ticketId == ticket._id)
                             selectedTicket = ticket;
                     }
                 );
@@ -81,12 +81,12 @@ class TicketsList extends React.Component {
     };
 
     handleModalClose = (modalId) => {
-        switch(modalId){
+        switch (modalId) {
             case "createModal":
                 this.setState({
                     ...this.state,
                     isCreateModalOpen: false
-                });    
+                });
                 break;
             case "editModal":
                 this.setState({
@@ -106,7 +106,7 @@ class TicketsList extends React.Component {
     };
 
     createTicket = (ticket) => {
-        const URL = 'http://'+clientConfig.mongoAPI.HOST+clientConfig.mongoAPI.BASE_PATH;
+        const URL = 'http://' + clientConfig.mongoAPI.HOST + clientConfig.mongoAPI.BASE_PATH;
         axios({
             method: 'post',
             url: URL,
@@ -127,7 +127,7 @@ class TicketsList extends React.Component {
     }
 
     editTicket = (ticketId, ticket) => {
-        const URL = 'http://'+clientConfig.mongoAPI.HOST+clientConfig.mongoAPI.BASE_PATH+'/'+ticketId;
+        const URL = 'http://' + clientConfig.mongoAPI.HOST + clientConfig.mongoAPI.BASE_PATH + '/' + ticketId;
         axios({
             method: 'put',
             url: URL,
@@ -148,7 +148,7 @@ class TicketsList extends React.Component {
     }
 
     deleteTicket = (ticketId) => {
-        const URL = 'http://'+clientConfig.mongoAPI.HOST+clientConfig.mongoAPI.BASE_PATH+'/'+ticketId;
+        const URL = 'http://' + clientConfig.mongoAPI.HOST + clientConfig.mongoAPI.BASE_PATH + '/' + ticketId;
         axios({
             method: 'delete',
             url: URL
@@ -169,7 +169,7 @@ class TicketsList extends React.Component {
             <MuiThemeProvider>
                 <div>
                     <div>
-                        <FlatButton 
+                        <FlatButton
                             label="Create Ticket"
                             primary={true}
                             onClick={() => this.handleModalOpen("createModal")}
@@ -186,30 +186,15 @@ class TicketsList extends React.Component {
 
                                 />
                                 <CardText expandable={true}>
-                                    <table className="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp">
-                                        <tbody>
-                                            <tr>
-                                                <td className="mdl-data-table__cell--non-numeric">Reporter</td>
-                                                <td className="mdl-data-table__cell--non-numeric">{ticket.reporter}</td>
-                                            </tr>
-                                            <tr>
-                                                <td className="mdl-data-table__cell--non-numeric">Assignee</td>
-                                                <td className="mdl-data-table__cell--non-numeric">{ticket.assignee}</td>
-                                            </tr>
-                                            <tr>
-                                                <td className="mdl-data-table__cell--non-numeric">Status</td>
-                                                <td className="mdl-data-table__cell--non-numeric">{ticket.status}</td>
-                                            </tr>
-                                            <tr>
-                                                <td className="mdl-data-table__cell--non-numeric">Severity</td>
-                                                <td className="mdl-data-table__cell--non-numeric">{ticket.severity}</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
+                                    <div style={{ "display": "flex", "justify-content": "space-between" }}>
+                                        <div>{ticket.description}</div>
+                                        <div style={{ "padding-right": "20px" }}>Assignee: {ticket.assignee}</div>
+                                    </div>
                                 </CardText>
                                 <CardActions expandable={true}>
-                                    <RaisedButton label="Edit" onClick={() => this.handleModalOpen("editModal", ticket._id)} />
-                                    <RaisedButton label="Delete" onClick={() => this.handleModalOpen("deleteModal", ticket._id)} />
+                                    <div>
+                                        <RaisedButton label="View details" />
+                                    </div>
                                 </CardActions>
                             </Card>
                         )}
