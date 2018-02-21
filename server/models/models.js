@@ -2,8 +2,10 @@ var mongoose = require('mongoose');
 var autoIncrement = require('mongoose-auto-increment');
 var ticketMongooseSchema = require('./schemas/ticket.js');
 
+var severConfig = require('../../config').server;
+
 module.exports = function(wagner) {
-  mongoose.connect('mongodb://localhost:27017/bugtracker');
+  mongoose.connect(severConfig.mongodb.connectionURL);
 
   autoIncrement.initialize(mongoose.connection);
   ticketMongooseSchema.plugin(autoIncrement.plugin, { 
