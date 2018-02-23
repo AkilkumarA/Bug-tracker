@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
@@ -13,6 +14,7 @@ import IconButton from 'material-ui/IconButton';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import ExpandMoreIcon from 'material-ui/svg-icons/navigation/expand-more';
 import ExpandLessIcon from 'material-ui/svg-icons/navigation/expand-less';
+import Snackbar from 'material-ui/Snackbar';
 
 import DeleteModal from './DeleteModal';
 import CreateModal from './CreateModal';
@@ -31,8 +33,16 @@ class TicketsList extends React.Component {
             expandedTicketId: 0,
             isCreateModalOpen: false,
             isEditModalOpen: false,
-            isDeleteModalOpen: false
+            isDeleteModalOpen: false,
+            snackBarMessage: '',
+            isSnackBarOpen: false,
         }
+
+        this.init = this.init.bind(this);
+        this.popSnackBar = this.popSnackBar.bind(this);
+        this.handleExpand = this.handleExpand.bind(this);
+        this.handleModalOpen = this.handleModalOpen.bind(this);
+        this.handleModalClose = this.handleModalClose.bind(this);
     };
 
     componentWillMount() {
@@ -121,6 +131,14 @@ class TicketsList extends React.Component {
         }
     };
 
+    popSnackBar(message){
+        this.setState({
+            ...this.state,
+            snackBarMessage: message,
+            isSnackBarOpen: true
+        });
+    }
+
     createTicket = (ticket) => {
         const URL = 'http://' + clientConfig.mongoAPI.HOST + clientConfig.mongoAPI.BASE_PATH;
         axios({
@@ -132,6 +150,7 @@ class TicketsList extends React.Component {
             data: ticket
         }).then((response) => {
             this.init();
+            this.popSnackBar("Ticket created");
         }).catch((error) => {
             console.log('Error: ' + error);
         });
@@ -153,6 +172,7 @@ class TicketsList extends React.Component {
             data: ticket
         }).then((response) => {
             this.init();
+            this.popSnackBar("Ticket updated");
         }).catch((error) => {
             console.log('Error: ' + error);
         });
@@ -170,6 +190,7 @@ class TicketsList extends React.Component {
             url: URL
         }).then((response) => {
             this.init();
+            this.popSnackBar("Ticket deleted");
         }).catch((error) => {
             console.log('Error: ' + error);
         });
@@ -193,8 +214,8 @@ class TicketsList extends React.Component {
                     </div>
                     <div>
                         {this.state.tickets.map(ticket =>
-                            <Card 
-                                key={ticket._id} 
+                            <Card
+                                key={ticket._id}
                                 style={{ "margin": "15px" }}
                                 expanded={this.state.expandedTicketId == ticket._id ? true : false}
                             >
@@ -203,18 +224,18 @@ class TicketsList extends React.Component {
                                     subtitle={ticket.title}
                                 >
                                     <IconButton>
-                                        {this.state.expandedTicketId == ticket._id ? 
-                                            <ExpandLessIcon onClick={() => this.handleExpand(ticket._id)}/> : 
-                                            <ExpandMoreIcon onClick={() => this.handleExpand(ticket._id)}/>
+                                        {this.state.expandedTicketId == ticket._id ?
+                                            <ExpandLessIcon onClick={() => this.handleExpand(ticket._id)} /> :
+                                            <ExpandMoreIcon onClick={() => this.handleExpand(ticket._id)} />
                                         }
                                     </IconButton>
                                     <IconMenu
                                         iconButtonElement={<IconButton><MoreVertIcon /></IconButton>}
-                                        anchorOrigin={{horizontal: 'right', vertical: 'top'}}
-                                        targetOrigin={{horizontal: 'right', vertical: 'top'}}
-                                        >
-                                            <MenuItem primaryText="Edit" onClick={() => this.handleModalOpen("editModal", ticket._id)} />
-                                            <MenuItem primaryText="Delete" onClick={() => this.handleModalOpen("deleteModal", ticket._id)} />
+                                        anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
+                                        targetOrigin={{ horizontal: 'right', vertical: 'top' }}
+                                    >
+                                        <MenuItem primaryText="Edit" onClick={() => this.handleModalOpen("editModal", ticket._id)} />
+                                        <MenuItem primaryText="Delete" onClick={() => this.handleModalOpen("deleteModal", ticket._id)} />
                                     </IconMenu>
                                 </CardHeader>
                                 <CardText expandable={true}>
@@ -224,9 +245,7 @@ class TicketsList extends React.Component {
                                     </div>
                                 </CardText>
                                 <CardActions expandable={true}>
-                                    <div>
-                                        <RaisedButton label="View details" />
-                                    </div>
+                                    <Link to={"/tickets/"+ticket._id}>View details</Link>
                                 </CardActions>
                             </Card>
                         )}
@@ -250,6 +269,16 @@ class TicketsList extends React.Component {
                             open={this.state.isDeleteModalOpen}
                             handleClose={this.handleModalClose}
                             deleteTicket={this.deleteTicket}
+                        />
+                        <Snackbar
+                            open={this.state.isSnackBarOpen}
+                            message={this.state.snackBarMessage}
+                            autoHideDuration={2000}
+                            onRequestClose={() => {this.setState({
+                                ...this.state,
+                                snackBarMessage: '',
+                                isSnackBarOpen: false
+                            })}}
                         />
                     </div>
                 </div>
